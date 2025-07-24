@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
 
-    
-  public function index()
+
+ public function index()
 {
-    $events = Event::where('start_time', '>=', now())->get();
+    $events = Event::all(); // or with filters
     return view('events.index', compact('events'));
 }
 

@@ -3,19 +3,9 @@
 @section('title', 'Available Events')
 
 @section('content')
-
     <h2>Available Events</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
     @foreach($events as $event)
-
         <div class="card mb-3">
             <div class="card-body">
                 <h4>{{ $event->title }}</h4>
@@ -24,12 +14,13 @@
                 <p><strong>Available Seats:</strong> {{ $event->available_seats }}</p>
 
                 @if($event->available_seats > 0)
-                    <form action="{{ route('bookings.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="event_id" value="{{ $event->id }}">
-                    <input type="number" name="seats_booked" min="1" max="{{ $event->available_seats }}" required>
-                    <button type="submit">Book</button>
-                </form>
+                   <form action="{{ route('events.book', $event->id) }}" method="POST">
+    @csrf
+    <div class="input-group" style="max-width: 200px;">
+        <input type="number" name="seats_booked" class="form-control" min="1" max="{{ $event->available_seats }}" required>
+        <button type="submit" class="btn btn-primary">Book Now</button>
+    </div>
+</form>
 
                 @else
                     <p class="text-danger">No seats available</p>
